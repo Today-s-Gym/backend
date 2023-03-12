@@ -43,3 +43,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+task copyGitSubmodule(type: Copy) {
+	from './config'
+	include 'application-main.yml'
+	into './src/main/resources'
+}

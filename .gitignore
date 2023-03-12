@@ -39,3 +39,7 @@ out/
 
 ### project
 application.yml
+
+## Git Submodule
+src/main/resources/application-dev.yml
+src/main/resources/application-main.yml
