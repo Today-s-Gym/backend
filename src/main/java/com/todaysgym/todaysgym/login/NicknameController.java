@@ -15,6 +15,7 @@ import java.util.Optional;
 public class NicknameController {
 
 
+
     private final MemberRepository userRepository;
 
     @GetMapping("/login/nickname")
