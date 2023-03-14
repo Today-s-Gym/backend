@@ -74,7 +74,7 @@ jobs:
         arguments: clean build -x test
 
     - name: Zip build file and deploy sh
-      run:
+      run: |
         mv ./build/libs/*.jar ./
         zip buildFile.zip ./appspec.yml ./*.jar ./scripts
 
