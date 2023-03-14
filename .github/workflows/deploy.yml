@@ -79,6 +79,9 @@ jobs:
     - name: Copy jar file to directory
       run: cp ./build/libs/*.jar todaysgym.jar
 
+    - name: Zip jar file
+      run: jar cf todaysgym.zip todaysgym.jar
+
     # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -103,4 +106,4 @@ jobs:
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
+          --s3-location bucket=$S3_BUCKET_NAME,key=todaysgym.zip,bundleType=zip
