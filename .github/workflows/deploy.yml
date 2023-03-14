@@ -67,6 +67,12 @@ jobs:
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
 
+    - name : make Directory
+      run: mkdir myDir
+
+    - name: Copy jar file to directory
+      run: cp ./build/libs/*.jar ./myDir/
+
     # (3) Gradle build (Test 제외)
     - name: Build with Gradle
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
@@ -87,7 +93,7 @@ jobs:
         aws deploy push \
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --ignore-hidden-files \
-          --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
+          --s3-location s3://$S3_BUCKET_NAME/myDir \
           --source .
 
     # (6) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
