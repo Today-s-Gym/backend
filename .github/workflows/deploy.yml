@@ -57,12 +57,16 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
 
-
     - name: Checkout repo
       uses: actions/checkout@v3
       with:
         token: ${{ secrets.TOKEN }}
         submodules: true
+
+    - name: Git Sumbodule Update
+      run: |
+        git pull --recurse-submodules
+        git submodule update --remote --recursive
 
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
