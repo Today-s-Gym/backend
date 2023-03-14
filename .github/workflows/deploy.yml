@@ -77,10 +77,7 @@ jobs:
       run: mkdir myDir
 
     - name: Copy jar file to directory
-      run: cp ./build/libs/*.jar ./myDir/
-
-    - name: Zip file
-      run : zip myDir.zip ./myDir
+      run: cp ./build/libs/*.jar todaysgym.jar
 
     # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
     - name: Configure AWS credentials
@@ -96,7 +93,7 @@ jobs:
         aws deploy push \
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --ignore-hidden-files \
-          --s3-location s3://$S3_BUCKET_NAME/myDir.zip \
+          --s3-location s3://$S3_BUCKET_NAME/todaysgym.jar \
           --source .
 
     # (6) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
