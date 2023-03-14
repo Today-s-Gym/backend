@@ -12,7 +12,6 @@ TIME_NOW=$(date +%c)
 # jar 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
 nohup java -jar \
--Dspring.config.location
 -Dspring.profiles.active=main \
 $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
 
