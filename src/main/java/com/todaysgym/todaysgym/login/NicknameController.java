@@ -1,9 +1,10 @@
 package com.todaysgym.todaysgym.login;
 
+
 import com.todaysgym.todaysgym.exception.BaseResponse;
 import com.todaysgym.todaysgym.exception.BaseResponseStatus;
-import com.todaysgym.todaysgym.user.Member;
-import com.todaysgym.todaysgym.user.MemberRepository;
+import com.todaysgym.todaysgym.member.Member;
+import com.todaysgym.todaysgym.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

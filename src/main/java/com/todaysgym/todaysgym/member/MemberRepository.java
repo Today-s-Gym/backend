@@ -1,8 +1,10 @@
-package com.todaysgym.todaysgym.user;
+package com.todaysgym.todaysgym.member;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import com.todaysgym.todaysgym.member.Member;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Integer> {

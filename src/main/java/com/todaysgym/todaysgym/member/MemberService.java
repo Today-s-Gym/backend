@@ -1,4 +1,4 @@
-package com.todaysgym.todaysgym.user;
+package com.todaysgym.todaysgym.member;
 
 import com.todaysgym.todaysgym.exception.BaseResponse;
 import com.todaysgym.todaysgym.exception.BaseResponseStatus;
@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
