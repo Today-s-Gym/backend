@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecordController {
 
     //일단위 기록 조회 필요 없음
-
     private final RecordService recordService;
 
 }
