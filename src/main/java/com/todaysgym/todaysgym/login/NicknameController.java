@@ -8,11 +8,14 @@ import com.todaysgym.todaysgym.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class NicknameController {
 
 
@@ -20,11 +23,10 @@ public class NicknameController {
     private final MemberRepository userRepository;
 
     @GetMapping("/login/nickname")
-    //@ResponseBody
-    //public BaseResponse<?> updateNickname(@RequestParam("nickname") String nickName)
-    public BaseResponse<?> updateNickname(String nickName)
+    @ResponseBody
+    public BaseResponse<?> updateNickname(@RequestParam("nickname") String nickname)
     {
-        Optional<Member> findUser = userRepository.findByNickName(nickName);
+        Optional<Member> findUser = userRepository.findByNickName(nickname);
         if(findUser.isEmpty()){
             return new BaseResponse<>(BaseResponseStatus.SUCCESS);
         }

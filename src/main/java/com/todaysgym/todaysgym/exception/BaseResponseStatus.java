@@ -23,7 +23,7 @@ public enum BaseResponseStatus {
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
     INVALID_USER(false, 2011, "존재하지 않는 사용자입니다."),
-    Already_Exist(false, 2012, "이미 존재하는 회원입니다."),
+    ALREADY_EXIST(false, 2012, "이미 존재하는 회원입니다."),
 
 
     // [POST] /users
