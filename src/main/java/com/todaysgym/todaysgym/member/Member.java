@@ -60,4 +60,8 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Tag> tagList = new ArrayList<>();
+
+
+    public void addRecordCount() {this.recordCount++;}
+    public void updateRecordCheck(){this.recordCheck = true;}
 }

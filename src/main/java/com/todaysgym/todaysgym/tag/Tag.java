@@ -34,4 +34,11 @@ public class Tag extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public void createRecord(Record record){
+        this.record = record;
+    }
+    public void createMember(Member member){
+        this.member=member;
+    }
 }

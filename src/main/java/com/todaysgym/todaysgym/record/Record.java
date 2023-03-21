@@ -47,4 +47,26 @@ public class Record extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "record", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Tag> tagList = new ArrayList<>();
+
+
+
+    public static Record createRecord(String content, Member user){
+        Record record = new Record();
+        record.createContent(content);
+        record.createMember(user);
+        return record;
+    }
+    public void createMember(Member member){this.member = member;}
+    public void createContent(String content){this.content = content;}
+
+    public void createPhotoList(RecordPhoto recordPhoto){
+        photoList.add(recordPhoto);
+        recordPhoto.createRecord(this);
+    }
+
+    public void addTagList(Tag tag){
+        tagList.add(tag);
+        tag.createRecord(this);
+    }
+
 }
