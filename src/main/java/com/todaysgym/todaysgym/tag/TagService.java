@@ -36,4 +36,19 @@ public class TagService {
         }
         saveTag(tags);
     }
+
+    /**
+     * 태그 record 연관 전체 삭제
+     */
+    @Transactional
+    public void deleteAllTagByRecord(List<Long> ids){
+        tagRepository.deleteAllByRecord(ids);
+    }
+
+    /**
+     * record와 연관된 모든 id 조회
+     */
+    public List<Long> findAllId(Long recordId){
+        return tagRepository.findAllId(recordId);
+    }
 }

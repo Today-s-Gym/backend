@@ -63,10 +63,13 @@ public class Record extends BaseTimeEntity {
         photoList.add(recordPhoto);
         recordPhoto.createRecord(this);
     }
-
     public void addTagList(Tag tag){
         tagList.add(tag);
         tag.createRecord(this);
     }
+    public void updateRecord(String content){
+        this.content = content;
+    }
+    public void addReport(){ this.report++; }
 
 }
