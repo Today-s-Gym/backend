@@ -22,6 +22,8 @@ public class RecordPhotoService {
         recordPhotoRepository.saveAll(recordPhotos);
     }
 
+    public List<RecordPhoto> findByRecordId(Long recordId){ return recordPhotoRepository.findAllByRecord(recordId); }
+
     /**
      *여러개의 recordPhoto 저장
      */
@@ -34,5 +36,29 @@ public class RecordPhotoService {
             record.createPhotoList(recordPhoto);
         }
         saveRecordPhoto(recordPhotos);
+    }
+
+    /**
+     * 기록과 연관된 모든 recordPhoto 삭제
+     */
+    @Transactional
+    public void deleteAllRecordPhotos(List<RecordPhoto> recordPhotos){
+        for (RecordPhoto recordPhoto : recordPhotos) {
+            s3Service.deleteFile(recordPhoto.getFileName());
+        }
+    }
+
+    @Transactional
+    public void deleteAllRecordPhotoByRecord(List<Long> ids){
+        recordPhotoRepository.deleteAllByRecord(ids);
+    }
+
+
+
+    /**
+     * record와 연관된 모든 id 조회
+     */
+    public List<Long> findAllId(Long recordId){
+        return recordPhotoRepository.findAllId(recordId);
     }
 }
