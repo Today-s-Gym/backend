@@ -1,12 +1,11 @@
 package com.todaysgym.todaysgym.login;
 
 
-import com.todaysgym.todaysgym.exception.BaseResponse;
-import com.todaysgym.todaysgym.exception.BaseResponseStatus;
+import com.todaysgym.todaysgym.config.exception.BaseException;
+import com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode;
 import com.todaysgym.todaysgym.member.Member;
 import com.todaysgym.todaysgym.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,14 +23,14 @@ public class NicknameController {
 
     @GetMapping("/login/nickname")
     @ResponseBody
-    public BaseResponse<?> updateNickname(@RequestParam("nickname") String nickname)
+    public String updateNickname(@RequestParam("nickname") String nickname)
     {
         Optional<Member> findUser = userRepository.findByNickName(nickname);
         if(findUser.isEmpty()){
-            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+            return nickname;
         }
         else{
-            return new BaseResponse<>(BaseResponseStatus.NICKNAME_ERROR);
+            throw new BaseException(MemberErrorCode.NICKNAME_ERROR);
         }
     }
 }

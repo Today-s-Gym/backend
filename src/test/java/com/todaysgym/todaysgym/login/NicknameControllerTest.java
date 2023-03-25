@@ -1,7 +1,6 @@
 package com.todaysgym.todaysgym.login;
 
-import com.todaysgym.todaysgym.exception.BaseResponse;
-import com.todaysgym.todaysgym.exception.BaseResponseStatus;
+
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +18,7 @@ public class NicknameControllerTest {
         String nickname = "pulsop";
 
         //Then
-        Assertions.assertEquals(new BaseResponse<>(BaseResponseStatus.SUCCESS).getCode(), nicknameController.updateNickname(nickname).getCode());
+        Assertions.assertEquals("pulsop", nicknameController.updateNickname(nickname));
 
     }
 }
