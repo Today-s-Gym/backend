@@ -1,7 +1,7 @@
 package com.todaysgym.todaysgym.member;
 
-import com.todaysgym.todaysgym.exception.BaseResponse;
-import com.todaysgym.todaysgym.exception.BaseResponseStatus;
+import com.todaysgym.todaysgym.config.exception.BaseException;
+import com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +19,12 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    private BaseResponse<?> validateDuplicateMember(Member member) {
+    private void validateDuplicateMember(Member member) {
         Optional<Member> findMembers =
                 memberRepository.findByNickName(member.getNickName());
         if (!findMembers.isEmpty()) {
-            return new BaseResponse<>(BaseResponseStatus.Already_Exist);
+            throw new BaseException(MemberErrorCode.ALREADY_EXIST);
         }
-        else return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
     public Member findOne(Long memberId) {
