@@ -51,7 +51,7 @@ public class JwtService {
             throw new BaseException(INVALID_JWT);
         }
 
-        // 3. userId 추출
+        // 3. memberId 추출
         return claims.getBody().get("memberId",long.class);
     }
 
@@ -77,7 +77,7 @@ public class JwtService {
             throw new BaseException(INVALID_JWT);
         }
 
-        // 3. userId 추출
+        // 3. memberId 추출
         return claims.getBody().get("memberId",long.class);
     }
 }

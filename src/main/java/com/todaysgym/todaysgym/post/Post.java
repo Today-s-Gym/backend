@@ -55,4 +55,8 @@ public class Post extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "post", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<PostPhoto> photoList = new ArrayList<>();
+
+    public void deleteRecord(){
+        this.record = null;
+    }
 }

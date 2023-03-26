@@ -1,4 +1,0 @@
-[submodule "config"]
-	path = config
-	url = https://github.com/Today-s-Gym/application.git
-	branch = "main"
