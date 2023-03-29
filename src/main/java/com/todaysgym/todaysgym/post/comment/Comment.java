@@ -36,4 +36,8 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    public void addReportCount() {
+        this.report++;
+    }
 }
