@@ -64,4 +64,8 @@ public class Member extends BaseTimeEntity {
 
     public void addRecordCount() {this.recordCount++;}
     public void updateRecordCheck(){this.recordCheck = true;}
+
+    public void addReportCount() {
+        this.report++;
+    }
 }

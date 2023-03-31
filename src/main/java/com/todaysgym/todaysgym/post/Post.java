@@ -59,4 +59,8 @@ public class Post extends BaseTimeEntity {
     public void deleteRecord(){
         this.record = null;
     }
+
+    public void addReportCount() {
+        this.report++;
+    }
 }
