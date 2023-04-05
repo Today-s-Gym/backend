@@ -22,7 +22,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -40,6 +43,9 @@ dependencies {
 
 	// swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+	//gson
+	implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 tasks.named('test') {
@@ -47,7 +53,6 @@ tasks.named('test') {
 }
 
 
-processResources.dependsOn('copyGitSubmodule')
 task copyGitSubmodule(type: Copy) {
 	from './config'
 	include '*.yml'
