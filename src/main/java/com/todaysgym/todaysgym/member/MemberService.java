@@ -41,4 +41,10 @@ public class MemberService {
         Member member = utilService.findByMemberIdWithValidation(memberId);
         return new AccountPrivacyRes(member.isLocked());
     }
+
+    @Transactional(readOnly = true)
+    public String findMemberEmailByUserId(long memberId) {
+        Member member = utilService.findByMemberIdWithValidation(memberId);
+        return member.getEmail();
+    }
 }
