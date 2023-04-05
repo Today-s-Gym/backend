@@ -1,0 +1,60 @@
+server:
+  port: 8123
+
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/todaysgym
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  servlet:
+    multipart:
+      max-request-size: 30MB
+      max-file-size: 30MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAWZAG77WW5CBCEQAD
+      secretKey: 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
+    s3:
+      bucket: todaysgym-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 429955294987-388f8t5sfg593faspeftn44nkrthu8mc.apps.googleusercontent.com
+            client-secret: MUSODP-tzCziqenf3yR4UnPgcj3-xYHcO1J
+            scope: profile, email
+
+
+
+#구글 비밀번호
+google:
+  default:
+    password: google123
+
+
+#카카오 임시 비밀번호
+kakao:
+  default:
+    password: kakao123

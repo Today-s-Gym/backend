@@ -16,17 +16,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RestController
 public class NicknameController {
-
-
-
-    private final MemberRepository userRepository;
-
+    private final MemberRepository memberRepository;
     @GetMapping("/login/nickname")
     @ResponseBody
     public String updateNickname(@RequestParam("nickname") String nickname)
     {
-        Optional<Member> findUser = userRepository.findByNickName(nickname);
-        if(findUser.isEmpty()){
+        Optional<Member> findMember = memberRepository.findByNickName(nickname);
+        if(findMember.isEmpty()){
             return nickname;
         }
         else{

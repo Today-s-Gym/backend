@@ -5,18 +5,23 @@ import com.todaysgym.todaysgym.secret.Secret;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 
 import static com.todaysgym.todaysgym.config.exception.errorCode.AuthErrorCode.*;
 
+@RequiredArgsConstructor
+@Service
 public class JwtService {
+    //코드 사용x
+    private final Secret secret = new Secret();
     private Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(Secret.JWT_SECRET_KEY));
-
-
     /**
      * Header에서 Authorization 으로 JWT 추출
      */

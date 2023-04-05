@@ -5,9 +5,10 @@ import com.todaysgym.todaysgym.secret.Secret;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Key;
 import java.util.Date;
@@ -16,9 +17,9 @@ import static com.todaysgym.todaysgym.secret.Secret.REFRESH_TOKEN_EXPIRE_TIME;
 import static com.todaysgym.todaysgym.secret.Secret.ACCESS_TOKEN_EXPIRE_TIME;
 
 @Slf4j
-@Component
-public class JwtProvider {
-
+@RestController
+@RequiredArgsConstructor
+public class JwtProvider{
     private Key key = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(Secret.JWT_SECRET_KEY));
 
     //==토큰 생성 메소드==//
