@@ -9,7 +9,8 @@ import lombok.Getter;
 public enum MemberErrorCode implements ErrorCode {
     EMPTY_MEMBER("MEMBER_001", "존재하지 않는 사용자입니다."),
     NICKNAME_ERROR("MEMBER_002", "이미 존재하는 닉네임입니다."),
-    ALREADY_EXIST("MEMBER_003", "이미 존재하는 사용자입니다.")
+    ALREADY_EXIST("MEMBER_003", "이미 존재하는 사용자입니다."),
+    MEMBER_PRIVACY_REQUEST_ERROR("MEMBER_004", "입력값을 확인해주세요."),
     ;
     private final String errorCode;
     private final String message;
