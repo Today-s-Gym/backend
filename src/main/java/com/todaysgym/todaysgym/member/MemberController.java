@@ -41,8 +41,9 @@ public class MemberController {
         return new BaseResponse<>(memberService.getMemberAccountPrivacy(memberId));
     }
 
+    @ApiOperation(value = "사용자 이메일 조회")
     @GetMapping("/user/email")
-    public BaseResponse<MemberEmailRes> getUserEmail() {
+    public BaseResponse<MemberEmailRes> getMemberEmail() {
         String userEmail = memberService.findMemberEmailByUserId(jwtService.getMemberIdx());
         MemberEmailRes memberEmailRes = new MemberEmailRes(userEmail);
         return new BaseResponse<>(memberEmailRes);
