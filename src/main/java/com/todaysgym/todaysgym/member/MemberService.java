@@ -2,6 +2,7 @@ package com.todaysgym.todaysgym.member;
 
 import com.todaysgym.todaysgym.config.exception.BaseException;
 import com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode;
+import com.todaysgym.todaysgym.member.dto.AccountPrivacyRes;
 import com.todaysgym.todaysgym.utils.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,10 @@ public class MemberService {
         Member member = utilService.findByMemberIdWithValidation(memberId);
         member.changeAccountPrivacy(locked);
         return member.getMemberId();
+    }
+    @Transactional(readOnly = true)
+    public AccountPrivacyRes getMemberAccountPrivacy(Long memberId) {
+        Member member = utilService.findByMemberIdWithValidation(memberId);
+        return new AccountPrivacyRes(member.isLocked());
     }
 }
