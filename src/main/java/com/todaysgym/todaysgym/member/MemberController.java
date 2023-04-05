@@ -7,6 +7,7 @@ import com.todaysgym.todaysgym.config.response.BaseResponse;
 import com.todaysgym.todaysgym.login.jwt.JwtService;
 import com.todaysgym.todaysgym.member.dto.AccountPrivacyReq;
 import com.todaysgym.todaysgym.member.dto.AccountPrivacyRes;
+import com.todaysgym.todaysgym.member.dto.MemberEmailRes;
 import io.swagger.annotations.ApiOperation;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +41,10 @@ public class MemberController {
         return new BaseResponse<>(memberService.getMemberAccountPrivacy(memberId));
     }
 
-
+    @GetMapping("/user/email")
+    public BaseResponse<MemberEmailRes> getUserEmail() {
+        String userEmail = memberService.findMemberEmailByUserId(jwtService.getMemberIdx());
+        MemberEmailRes memberEmailRes = new MemberEmailRes(userEmail);
+        return new BaseResponse<>(memberEmailRes);
+    }
 }
