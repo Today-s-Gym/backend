@@ -19,7 +19,7 @@ import static com.todaysgym.todaysgym.config.exception.errorCode.AuthErrorCode.*
 @RequiredArgsConstructor
 @Service
 public class JwtService {
-    //코드 사용x
+
     private final Secret secret = new Secret();
     private Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(Secret.JWT_SECRET_KEY));
     /**
