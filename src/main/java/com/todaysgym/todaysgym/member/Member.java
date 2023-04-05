@@ -68,4 +68,8 @@ public class Member extends BaseTimeEntity {
     public void addReportCount() {
         this.report++;
     }
+
+    public void changeAccountPrivacy(boolean locked) {
+        this.locked = locked;
+    }
 }

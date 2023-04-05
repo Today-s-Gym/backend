@@ -2,6 +2,7 @@ package com.todaysgym.todaysgym.member;
 
 import com.todaysgym.todaysgym.config.exception.BaseException;
 import com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode;
+import com.todaysgym.todaysgym.utils.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final UtilService utilService;
     @Transactional //변경
     public void join(Member member) {
         validateDuplicateMember(member); //중복 회원 검증
@@ -25,5 +27,12 @@ public class MemberService {
     }
     public Member findOne(Long memberId) {
         return memberRepository.getByMemberId(memberId).get();
+    }
+
+    @Transactional
+    public Long changeAccountPrivacy(Long memberId, boolean locked) throws BaseException {
+        Member member = utilService.findByMemberIdWithValidation(memberId);
+        member.changeAccountPrivacy(locked);
+        return member.getMemberId();
     }
 }
