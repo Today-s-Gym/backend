@@ -5,6 +5,7 @@ import com.todaysgym.todaysgym.member.Member;
 import com.todaysgym.todaysgym.post.comment.Comment;
 import com.todaysgym.todaysgym.post.photo.PostPhoto;
 import com.todaysgym.todaysgym.record.Record;
+import com.todaysgym.todaysgym.record.photo.RecordPhoto;
 import com.todaysgym.todaysgym.utils.BaseTimeEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +63,26 @@ public class Post extends BaseTimeEntity {
 
     public void addReportCount() {
         this.report++;
+    }
+
+    public static Post createPost(Category category, Member writer, String title, String content, Record record){
+        Post post = new Post();
+        post.setCategory(category);
+        post.setRecord(record);
+        post.createTitle(title);
+        post.createContent(content);
+        post.createMember(writer);
+        return post;
+    }
+
+    public void setCategory(Category category) {this.category = category;}
+    public void setRecord(Record record) {this.record = record;}
+    public void createMember(Member member){this.member = member;}
+    public void createContent(String content){this.content = content;}
+    public void createTitle(String title){this.title = title;}
+
+    public void createPhotoList(PostPhoto postPhoto){
+        photoList.add(postPhoto);
+        postPhoto.createPost(this);
     }
 }
