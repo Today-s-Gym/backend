@@ -58,7 +58,7 @@ public class MemberService {
         return member.getEmail();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public GetMyPageRes getMyPage(Long memberId) {
         Member member = utilService.findByMemberIdWithValidation(memberId);
         validateUserNicknameAndCategory(member.getNickName(), member.getCategory());
@@ -92,5 +92,14 @@ public class MemberService {
         if (category == null) {
             throw new BaseException(EMPTY_USER_CATEGORY);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public GetMyPageRes getMemberProfile(Long memberId) {
+        Member member = utilService.findByMemberIdWithValidation(memberId);
+        if (member.isLocked()) {
+            return GetMyPageRes.lockedMyPageInfo();
+        }
+        return getMyPage(memberId);
     }
 }

@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,5 +55,10 @@ public class MemberController {
     public BaseResponse<GetMyPageRes> getMyPage() {
         Long memberId = jwtService.getMemberIdx();
         return new BaseResponse<>(memberService.getMyPage(memberId));
+    }
+
+    @GetMapping("/user/profile/{memberId}")
+    public BaseResponse<GetMyPageRes> getMemberProfile(@PathVariable("memberId") Long memberId) {
+        return new BaseResponse<>(memberService.getMemberProfile(memberId));
     }
 }
