@@ -22,6 +22,9 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
     @Query("select r from Record r where date_format(r.createdAt, '%Y-%m') = :month and r.member.memberId = :memberId")
     List<Record> findByRecordMonth(@Param("month") String month, @Param("memberId") Long memberId);
 
+    @Query("select count(r) from Record r where date_format(r.createdAt, '%Y-%m') = :month and r.member.memberId = :memberId")
+    Integer countByMemberIdMonth(@Param("memberId") Long memberId, @Param("month") String month);
+
     @Modifying
     @Query("delete from Record r where r.recordId = :recordId")
     Integer deleteAllByRecordId(@Param("recordId") Long recordId);
