@@ -51,12 +51,14 @@ public class MemberController {
         return new BaseResponse<>(memberEmailRes);
     }
 
+    @ApiOperation(value = "마이페이지 조회")
     @GetMapping("/user/mypage")
     public BaseResponse<GetMyPageRes> getMyPage() {
         Long memberId = jwtService.getMemberIdx();
         return new BaseResponse<>(memberService.getMyPage(memberId));
     }
 
+    @ApiOperation(value = "상대방 프로필 조회")
     @GetMapping("/user/profile/{memberId}")
     public BaseResponse<GetMyPageRes> getMemberProfile(@PathVariable("memberId") Long memberId) {
         return new BaseResponse<>(memberService.getMemberProfile(memberId));
