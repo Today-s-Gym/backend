@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
@@ -56,6 +57,7 @@ tasks.named('test') {
 task copyGitSubmodule(type: Copy) {
 	from './config'
 	include '*.yml'
+	include '*.properties'
 	into 'src/main/resources'
 }
 
