@@ -156,4 +156,14 @@ public class MemberService {
     public void memberLevelUp(Member member, Avatar avatar) {
         member.changeAvatar(avatar);
     }
+
+    @Transactional
+    public void setInitialAvatar(Member member) {
+        Avatar initialMyAvatar = getInitialAvatar();
+        memberLevelUp(member, initialMyAvatar);
+    }
+
+    private Avatar getInitialAvatar() {
+        return Avatar.getInitialAvatar();
+    }
 }
