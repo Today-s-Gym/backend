@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostPhotoRepository extends JpaRepository<PostPhoto, Long> {
 
@@ -15,6 +16,9 @@ public interface PostPhotoRepository extends JpaRepository<PostPhoto, Long> {
 
     @Query("SELECT pp.id FROM PostPhoto pp WHERE pp.post.postId = :postId")
     List<Long> findAllId(@Param("postId") Long postId);
+
+    @Query("select pp.imgUrl from PostPhoto pp where pp.post.postId = :postId")
+    List<String> findAllPhotos(@Param("postId") Long postId);
 
     @Modifying
     @Query("DELETE FROM PostPhoto pp WHERE pp.id IN :ids")

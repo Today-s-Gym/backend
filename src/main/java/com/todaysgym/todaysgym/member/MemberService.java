@@ -2,10 +2,13 @@ package com.todaysgym.todaysgym.member;
 
 import static com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode.EMPTY_USER_CATEGORY;
 import static com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode.EMPTY_USER_NICKNAME;
+import static com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode.LENGTH_OVER_INTRODUCE;
+import static com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode.NICKNAME_ERROR;
 
 import com.todaysgym.todaysgym.category.Category;
 import com.todaysgym.todaysgym.config.exception.BaseException;
 import com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode;
+import com.todaysgym.todaysgym.config.response.BaseResponse;
 import com.todaysgym.todaysgym.member.dto.AccountPrivacyRes;
 import com.todaysgym.todaysgym.member.dto.GetMyPageRes;
 import com.todaysgym.todaysgym.member.dto.MemberRecordCount;
@@ -21,6 +24,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    private static int INTRODUCE_MAX_LENGTH = 30;
     private final MemberRepository memberRepository;
     private final UtilService utilService;
     private final RecordRepository recordRepository;
@@ -101,5 +105,30 @@ public class MemberService {
             return GetMyPageRes.lockedMyPageInfo();
         }
         return getMyPage(memberId);
+    }
+
+    @Transactional
+    public BaseResponse<Long> editMyPage(Long memberId, String newNickname, String newIntroduce) throws BaseException {
+        Member member = utilService.findByMemberIdWithValidation(memberId);
+        editNickName(newNickname, member);
+        editIntroduce(newIntroduce, member);
+        return new BaseResponse<>(member.getMemberId());
+    }
+
+    private void editNickName(String newNickname, Member member) throws BaseException {
+        if (member.getNickName().equals(newNickname)) {
+            return;
+        }
+        if (memberRepository.findByNickName(newNickname).isPresent()) {
+            throw new BaseException(NICKNAME_ERROR);
+        }
+        member.changeNickname(newNickname);
+    }
+
+    private static void editIntroduce(String newIntroduce, Member member) throws BaseException {
+        if (newIntroduce.length() > INTRODUCE_MAX_LENGTH) {
+            throw new BaseException(LENGTH_OVER_INTRODUCE);
+        }
+        member.editIntroduce(newIntroduce);
     }
 }
