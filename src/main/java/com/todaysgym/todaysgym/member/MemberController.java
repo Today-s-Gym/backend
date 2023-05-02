@@ -72,4 +72,10 @@ public class MemberController {
         Long memberId = jwtService.getMemberIdx();
         return memberService.editMyPage(memberId, editMyPageReq.getNewNickname(), editMyPageReq.getNewIntroduce());
     }
+
+    @GetMapping("/user/now-avatar")
+    public BaseResponse<String> getNowAvatar() {
+        Long memberId = jwtService.getMemberIdx();
+        return new BaseResponse<>(memberService.getNowAvatar(memberId));
+    }
 }
