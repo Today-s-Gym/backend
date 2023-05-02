@@ -5,6 +5,7 @@ import com.todaysgym.todaysgym.config.exception.BaseException;
 import com.todaysgym.todaysgym.config.exception.errorCode.PostErrorCode;
 import com.todaysgym.todaysgym.member.Member;
 import com.todaysgym.todaysgym.post.PostRepository;
+import com.todaysgym.todaysgym.post.dto.GetPostRes;
 import com.todaysgym.todaysgym.post.dto.GetPostsRes;
 import com.todaysgym.todaysgym.post.dto.PostPostReq;
 import com.todaysgym.todaysgym.post.like.PostLikeService;
@@ -87,6 +88,7 @@ public class PostService {
                     .title(post.getTitle())
                     .content(post.getContent())
                     .createdAt(convertLocalDateTimeToTime(post.getCreatedAt()))
+                    .record(recordRes)
                     .writerId(post.getMember().getMemberId())
                     //.writerAvatarImgUrl(post.getMember().getAvatar())
                     .writerNickname(post.getMember().getNickName())
@@ -94,8 +96,52 @@ public class PostService {
                     .liked(postLikeService.checkLike(viewer.getMemberId(), post.getPostId()))
                     .commentCounts(post.getCommentList().size())
                     .build();
+
+            postsRes.add(res);
         }
 
         return postsRes;
+    }
+    public String checkIsMine(Member viewer, Member writer) {
+        if(viewer == writer) {
+            return "MINE";
+        } else {
+            return "NOT MINE";
+        }
+    }
+    public GetPostRes getPost(Member viewer, Long postId) throws BaseException {
+        Post post = utilService.findByPostIdWithValidation(postId);
+        Member writer = post.getMember();
+
+        String type = checkIsMine(viewer, writer);
+
+        // 첨부된 기록 처리
+        Record record = post.getRecord();
+        RecordGetRecentRes recordRes = null;
+        if(record != null) {
+            recordRes = new RecordGetRecentRes(record.getRecordId(), record.getContent(), record.getCreatedAt(), record.getPhotoList());
+        }
+
+        GetPostsRes getPostsRes = GetPostsRes.builder()
+                .postId(post.getPostId())
+                .postPhotoList(postPhotoService.findByPostId(post.getPostId()))
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdAt(convertLocalDateTimeToTime(post.getCreatedAt()))
+                .writerId(post.getMember().getMemberId())
+                //.writerAvatarImgUrl(post.getMember().getAvatar())
+                .writerNickname(post.getMember().getNickName())
+                .record(recordRes)
+                .likeCounts(postLikeService.getLikeCounts(post.getPostId()))
+                .liked(postLikeService.checkLike(viewer.getMemberId(), post.getPostId()))
+                .commentCounts(post.getCommentList().size())
+                .build();
+
+        GetPostRes getPostRes = GetPostRes.builder()
+                .getPostsRes(getPostsRes)
+                .type(type)
+                .build();
+
+        return getPostRes;
     }
 }

@@ -4,6 +4,7 @@ import com.todaysgym.todaysgym.category.Category;
 import com.todaysgym.todaysgym.config.response.BaseResponse;
 import com.todaysgym.todaysgym.login.jwt.JwtService;
 import com.todaysgym.todaysgym.member.Member;
+import com.todaysgym.todaysgym.post.dto.GetPostRes;
 import com.todaysgym.todaysgym.post.dto.GetPostsRes;
 import com.todaysgym.todaysgym.post.dto.PostPostReq;
 import com.todaysgym.todaysgym.record.dto.RecordGetReq;
@@ -34,7 +35,7 @@ public class PostController {
             return new BaseResponse<>(postService.createPost(writer, postPostReq, multipartFiles));
     }
 
-    /** 게시글 조회하기
+    /** 전체 게시글 조회하기
      *  [GET] /posts/{page}
      *  주의사항: Param 에서 Category 반드시 대문자로 입력해야함!
      */
@@ -42,6 +43,15 @@ public class PostController {
     public BaseResponse<List<GetPostsRes>> getAllPostsByCategory(@PathVariable("page") int page, @RequestParam("category") Category category) {
             Member viewer = utilService.findByMemberIdWithValidation(jwtService.getMemberIdx());
             return new BaseResponse<>(postService.getAllPosts(viewer, category, page));
+    }
+
+    /** 상세 게시글 조회하기
+     *  [GET] /post/{postId}
+     */
+    @GetMapping("/post/{postId}")
+    public BaseResponse<GetPostRes> getPostByPostId(@PathVariable("postId") Long postId) {
+        Member viewer = utilService.findByMemberIdWithValidation(jwtService.getMemberIdx());
+        return new BaseResponse<>(postService.getPost(viewer, postId));
     }
 
 }
