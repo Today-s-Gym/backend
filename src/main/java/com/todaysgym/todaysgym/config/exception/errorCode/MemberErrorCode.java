@@ -11,6 +11,8 @@ public enum MemberErrorCode implements ErrorCode {
     NICKNAME_ERROR("MEMBER_002", "이미 존재하는 닉네임입니다."),
     ALREADY_EXIST("MEMBER_003", "이미 존재하는 사용자입니다."),
     MEMBER_PRIVACY_REQUEST_ERROR("MEMBER_004", "입력값을 확인해주세요."),
+    EMPTY_USER_NICKNAME("MEMBER_005", "닉네임 설정이 완료되지 않았습니다."),
+    EMPTY_USER_CATEGORY("MEMBER_006", "운동 선택이 완료되지 않았습니다."),
     ;
     private final String errorCode;
     private final String message;

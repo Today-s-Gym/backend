@@ -7,11 +7,13 @@ import com.todaysgym.todaysgym.config.response.BaseResponse;
 import com.todaysgym.todaysgym.login.jwt.JwtService;
 import com.todaysgym.todaysgym.member.dto.AccountPrivacyReq;
 import com.todaysgym.todaysgym.member.dto.AccountPrivacyRes;
+import com.todaysgym.todaysgym.member.dto.GetMyPageRes;
 import com.todaysgym.todaysgym.member.dto.MemberEmailRes;
 import io.swagger.annotations.ApiOperation;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,5 +49,18 @@ public class MemberController {
         String userEmail = memberService.findMemberEmailByUserId(jwtService.getMemberIdx());
         MemberEmailRes memberEmailRes = new MemberEmailRes(userEmail);
         return new BaseResponse<>(memberEmailRes);
+    }
+
+    @ApiOperation(value = "마이페이지 조회")
+    @GetMapping("/user/mypage")
+    public BaseResponse<GetMyPageRes> getMyPage() {
+        Long memberId = jwtService.getMemberIdx();
+        return new BaseResponse<>(memberService.getMyPage(memberId));
+    }
+
+    @ApiOperation(value = "상대방 프로필 조회")
+    @GetMapping("/user/profile/{memberId}")
+    public BaseResponse<GetMyPageRes> getMemberProfile(@PathVariable("memberId") Long memberId) {
+        return new BaseResponse<>(memberService.getMemberProfile(memberId));
     }
 }

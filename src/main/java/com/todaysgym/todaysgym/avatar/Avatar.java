@@ -18,4 +18,12 @@ public enum Avatar {
         this.minRecordCount = minRecordCount;
         this.maxRecordCount = maxRecordCount;
     }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public int getRemainUpgradeCount(int recordCount) {
+        return this.maxRecordCount-recordCount;
+    }
 }
