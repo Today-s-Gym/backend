@@ -73,6 +73,7 @@ public class MemberController {
         return memberService.editMyPage(memberId, editMyPageReq.getNewNickname(), editMyPageReq.getNewIntroduce());
     }
 
+    @ApiOperation(value = "현재 아바타 조회")
     @GetMapping("/user/now-avatar")
     public BaseResponse<String> getNowAvatar() {
         Long memberId = jwtService.getMemberIdx();
