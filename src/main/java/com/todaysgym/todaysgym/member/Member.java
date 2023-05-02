@@ -72,4 +72,12 @@ public class Member extends BaseTimeEntity {
     public void changeAccountPrivacy(boolean locked) {
         this.locked = locked;
     }
+
+    public void changeNickname(String newNickname) {
+        this.nickName = newNickname;
+    }
+
+    public void editIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
 }

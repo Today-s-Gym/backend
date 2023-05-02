@@ -13,6 +13,7 @@ public enum MemberErrorCode implements ErrorCode {
     MEMBER_PRIVACY_REQUEST_ERROR("MEMBER_004", "입력값을 확인해주세요."),
     EMPTY_USER_NICKNAME("MEMBER_005", "닉네임 설정이 완료되지 않았습니다."),
     EMPTY_USER_CATEGORY("MEMBER_006", "운동 선택이 완료되지 않았습니다."),
+    LENGTH_OVER_INTRODUCE("MEMBER_007", "한 줄 소개는 30글자 이하로 입력해주세요"),
     ;
     private final String errorCode;
     private final String message;
