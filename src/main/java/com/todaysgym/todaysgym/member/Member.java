@@ -80,4 +80,8 @@ public class Member extends BaseTimeEntity {
     public void editIntroduce(String introduce) {
         this.introduce = introduce;
     }
+
+    public void changeAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
 }
