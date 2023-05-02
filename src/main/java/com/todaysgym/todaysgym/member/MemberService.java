@@ -131,4 +131,10 @@ public class MemberService {
         }
         member.editIntroduce(newIntroduce);
     }
+
+    @Transactional(readOnly = true)
+    public String getNowAvatar(Long memberId) throws BaseException {
+        Member member = utilService.findByMemberIdWithValidation(memberId);
+        return member.getAvatar().getImgUrl();
+    }
 }
