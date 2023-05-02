@@ -1,12 +1,18 @@
 package com.todaysgym.todaysgym.post;
 
+import com.todaysgym.todaysgym.category.Category;
 import com.todaysgym.todaysgym.config.exception.BaseException;
+import com.todaysgym.todaysgym.config.exception.errorCode.PostErrorCode;
 import com.todaysgym.todaysgym.member.Member;
 import com.todaysgym.todaysgym.post.PostRepository;
+import com.todaysgym.todaysgym.post.dto.GetPostRes;
+import com.todaysgym.todaysgym.post.dto.GetPostsRes;
 import com.todaysgym.todaysgym.post.dto.PostPostReq;
+import com.todaysgym.todaysgym.post.like.PostLikeService;
 import com.todaysgym.todaysgym.post.photo.PostPhotoRepository;
 import com.todaysgym.todaysgym.post.photo.PostPhotoService;
 import com.todaysgym.todaysgym.record.Record;
+import com.todaysgym.todaysgym.record.dto.RecordGetRecentRes;
 import com.todaysgym.todaysgym.record.dto.RecordGetReq;
 import com.todaysgym.todaysgym.record.photo.RecordPhotoRepository;
 import com.todaysgym.todaysgym.record.photo.RecordPhotoService;
@@ -14,6 +20,7 @@ import com.todaysgym.todaysgym.utils.S3Service;
 import com.todaysgym.todaysgym.utils.UtilService;
 import com.todaysgym.todaysgym.utils.dto.getS3Res;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.todaysgym.todaysgym.config.exception.errorCode.RecordErrorCode.EMPTY_RECORD;
+import static com.todaysgym.todaysgym.utils.UtilService.convertLocalDateTimeToTime;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +38,7 @@ public class PostService {
     private final PostPhotoService postPhotoService;
     private final S3Service s3Service;
     private final UtilService utilService;
+    private final PostLikeService postLikeService;
 
     /**
      * 기록과 관련된 게시글 조회 후 기록 null로 변경
@@ -57,4 +66,91 @@ public class PostService {
 
         return "postId: " + post.getPostId() + "인 게시글을 생성했습니다.";
     }
+    public List<GetPostsRes> createGetPostsRes(List<Post> posts, Member viewer) {
+        List<GetPostsRes> postsRes = new ArrayList<>();
+
+        for(int i=0; i<posts.size(); i++) {
+            Post post = posts.get(i);
+
+            // 첨부된 기록 처리
+            Record record = post.getRecord();
+            RecordGetRecentRes recordRes = null;
+            if(record != null) {
+                recordRes = new RecordGetRecentRes(record.getRecordId(), record.getContent(), record.getCreatedAt(), record.getPhotoList());
+            }
+
+            GetPostsRes res = GetPostsRes.builder()
+                    .postId(post.getPostId())
+                    .postPhotoList(postPhotoService.findByPostId(post.getPostId()))
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .createdAt(convertLocalDateTimeToTime(post.getCreatedAt()))
+                    .record(recordRes)
+                    .writerId(post.getMember().getMemberId())
+                    //.writerAvatarImgUrl(post.getMember().getAvatar())
+                    .writerNickname(post.getMember().getNickName())
+                    .likeCounts(postLikeService.getLikeCounts(post.getPostId()))
+                    .liked(postLikeService.checkLike(viewer.getMemberId(), post.getPostId()))
+                    .commentCounts(post.getCommentList().size())
+                    .build();
+
+            postsRes.add(res);
+        }
+
+        return postsRes;
+    }
+
+    public List<GetPostsRes> getAllPosts(Member viewer, Category category, int page) throws BaseException {
+        List<Post> posts = postRepository.findByCategoryId(category, PageRequest.of(page,10)).orElse(null);
+        return createGetPostsRes(posts, viewer);
+    }
+
+    public List<GetPostsRes> getMyPosts(Member member) throws BaseException {
+        List<Post> posts = member.getPostList();
+        return createGetPostsRes(posts, member);
+    }
+
+    public String checkIsMine(Member viewer, Member writer) {
+        if(viewer == writer) {
+            return "MINE";
+        } else {
+            return "NOT MINE";
+        }
+    }
+    public GetPostRes getPost(Member viewer, Long postId) throws BaseException {
+        Post post = utilService.findByPostIdWithValidation(postId);
+        Member writer = post.getMember();
+
+        String type = checkIsMine(viewer, writer);
+
+        // 첨부된 기록 처리
+        Record record = post.getRecord();
+        RecordGetRecentRes recordRes = null;
+        if(record != null) {
+            recordRes = new RecordGetRecentRes(record.getRecordId(), record.getContent(), record.getCreatedAt(), record.getPhotoList());
+        }
+
+        GetPostsRes getPostsRes = GetPostsRes.builder()
+                .postId(post.getPostId())
+                .postPhotoList(postPhotoService.findByPostId(post.getPostId()))
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdAt(convertLocalDateTimeToTime(post.getCreatedAt()))
+                .writerId(post.getMember().getMemberId())
+                //.writerAvatarImgUrl(post.getMember().getAvatar())
+                .writerNickname(post.getMember().getNickName())
+                .record(recordRes)
+                .likeCounts(postLikeService.getLikeCounts(post.getPostId()))
+                .liked(postLikeService.checkLike(viewer.getMemberId(), post.getPostId()))
+                .commentCounts(post.getCommentList().size())
+                .build();
+
+        GetPostRes getPostRes = GetPostRes.builder()
+                .getPostsRes(getPostsRes)
+                .type(type)
+                .build();
+
+        return getPostRes;
+    }
+
 }
