@@ -66,10 +66,7 @@ public class PostService {
 
         return "postId: " + post.getPostId() + "인 게시글을 생성했습니다.";
     }
-
-    public List<GetPostsRes> getAllPosts(Member viewer, Category category, int page) throws BaseException {
-        List<Post> posts = postRepository.findByCategoryId(category, PageRequest.of(page,10)).orElse(null);
-
+    public List<GetPostsRes> createGetPostsRes(List<Post> posts, Member viewer) {
         List<GetPostsRes> postsRes = new ArrayList<>();
 
         for(int i=0; i<posts.size(); i++) {
@@ -102,6 +99,17 @@ public class PostService {
 
         return postsRes;
     }
+
+    public List<GetPostsRes> getAllPosts(Member viewer, Category category, int page) throws BaseException {
+        List<Post> posts = postRepository.findByCategoryId(category, PageRequest.of(page,10)).orElse(null);
+        return createGetPostsRes(posts, viewer);
+    }
+
+    public List<GetPostsRes> getMyPosts(Member member) throws BaseException {
+        List<Post> posts = member.getPostList();
+        return createGetPostsRes(posts, member);
+    }
+
     public String checkIsMine(Member viewer, Member writer) {
         if(viewer == writer) {
             return "MINE";
@@ -144,4 +152,5 @@ public class PostService {
 
         return getPostRes;
     }
+
 }

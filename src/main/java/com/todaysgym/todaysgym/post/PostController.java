@@ -54,4 +54,13 @@ public class PostController {
         return new BaseResponse<>(postService.getPost(viewer, postId));
     }
 
+    /** 내 게시글 조회하기
+     *  [GET] /posts/my
+     */
+    @GetMapping("/posts/my")
+    public BaseResponse<List<GetPostsRes>> getPostByPostId() {
+        Member member = utilService.findByMemberIdWithValidation(jwtService.getMemberIdx());
+        return new BaseResponse<>(postService.getMyPosts(member));
+    }
+
 }
