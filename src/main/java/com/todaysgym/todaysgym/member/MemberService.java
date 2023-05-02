@@ -5,6 +5,7 @@ import static com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode
 import static com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode.LENGTH_OVER_INTRODUCE;
 import static com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode.NICKNAME_ERROR;
 
+import com.todaysgym.todaysgym.avatar.Avatar;
 import com.todaysgym.todaysgym.category.Category;
 import com.todaysgym.todaysgym.config.exception.BaseException;
 import com.todaysgym.todaysgym.config.exception.errorCode.MemberErrorCode;
@@ -136,5 +137,23 @@ public class MemberService {
     public String getNowAvatar(Long memberId) throws BaseException {
         Member member = utilService.findByMemberIdWithValidation(memberId);
         return member.getAvatar().getImgUrl();
+    }
+
+    @Transactional
+    public boolean checkAndMyAvatarLevelUp(Long memberId) {
+        Member member = utilService.findByMemberIdWithValidation(memberId);
+        int recordCount = member.getRecordCount();
+        Avatar avatar = Avatar.findByRecordCount(recordCount);
+
+        if (!member.getAvatar().equals(avatar)) {
+            memberLevelUp(member, avatar);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public void memberLevelUp(Member member, Avatar avatar) {
+        member.changeAvatar(avatar);
     }
 }
