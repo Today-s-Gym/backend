@@ -66,6 +66,7 @@ public class MemberController {
         return new BaseResponse<>(memberService.getMemberProfile(memberId));
     }
 
+    @ApiOperation(value = "마이페이지 수정")
     @PatchMapping("/user/mypage")
     public BaseResponse<Long> editMyPage(@RequestBody EditMyPageReq editMyPageReq) {
         Long memberId = jwtService.getMemberIdx();
