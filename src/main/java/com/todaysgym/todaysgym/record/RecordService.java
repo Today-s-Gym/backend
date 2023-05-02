@@ -1,7 +1,9 @@
 package com.todaysgym.todaysgym.record;
 
 import com.todaysgym.todaysgym.config.exception.BaseException;
+import com.todaysgym.todaysgym.login.jwt.JwtService;
 import com.todaysgym.todaysgym.member.Member;
+import com.todaysgym.todaysgym.member.MemberService;
 import com.todaysgym.todaysgym.post.Post;
 import com.todaysgym.todaysgym.post.PostService;
 import com.todaysgym.todaysgym.record.dto.RecordGetRecentRes;
@@ -42,6 +44,8 @@ public class RecordService {
     private final RecordPhotoService recordPhotoService;
     private final TagService tagService;
     private final PostService postService;
+    private final MemberService memberService;
+    private final JwtService jwtService;
     /**
      * Record, photo, tag 저장
      */
@@ -64,6 +68,7 @@ public class RecordService {
         }
         //4. 태크 추가
         tagService.saveAllTagByRecord(recordGetReq, record);
+        memberService.checkAndMyAvatarLevelUp(jwtService.getMemberIdx());
         return "기록을 추가했습니다";
     }
 
