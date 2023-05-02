@@ -7,12 +7,14 @@ import com.todaysgym.todaysgym.config.response.BaseResponse;
 import com.todaysgym.todaysgym.login.jwt.JwtService;
 import com.todaysgym.todaysgym.member.dto.AccountPrivacyReq;
 import com.todaysgym.todaysgym.member.dto.AccountPrivacyRes;
+import com.todaysgym.todaysgym.member.dto.EditMyPageReq;
 import com.todaysgym.todaysgym.member.dto.GetMyPageRes;
 import com.todaysgym.todaysgym.member.dto.MemberEmailRes;
 import io.swagger.annotations.ApiOperation;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,5 +64,11 @@ public class MemberController {
     @GetMapping("/user/profile/{memberId}")
     public BaseResponse<GetMyPageRes> getMemberProfile(@PathVariable("memberId") Long memberId) {
         return new BaseResponse<>(memberService.getMemberProfile(memberId));
+    }
+
+    @PatchMapping("/user/mypage")
+    public BaseResponse<Long> editMyPage(@RequestBody EditMyPageReq editMyPageReq) {
+        Long memberId = jwtService.getMemberIdx();
+        return memberService.editMyPage(memberId, editMyPageReq.getNewNickname(), editMyPageReq.getNewIntroduce());
     }
 }
