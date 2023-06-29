@@ -38,6 +38,11 @@ public enum Avatar {
             .max(Comparator.comparingInt(Avatar::getLevel)).get();
     }
 
+    public static Avatar getInitialAvatar() {
+        return Arrays.stream(values())
+            .min(Comparator.comparingInt(Avatar::getLevel)).get();
+    }
+
     public String getImgUrl() {
         return imgUrl;
     }
